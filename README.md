@@ -10,7 +10,7 @@ Esse projeto implementa uma árvore binária para fazer a conversão entre texto
 A árvore contém letras do alfabeto de A até Z e números de 0 a 9.
 
 
-### Node.java
+## Node.java
 
 Classe que define um nó na árvore binária.
 
@@ -21,20 +21,20 @@ Classe que define um nó na árvore binária.
 
 Classe que contém toda a estrutura da árvore binária, e o código principal do programa.
 
-## Método inserir
+### Método inserir
 
-## Método buscarPorMorse
+### Método buscarPorMorse
 
-## Método buscarPorCaractere
+### Método buscarPorCaractere
 
-## Método removerPorMorse
+### Método removerPorMorse
 
-## Método removerPorCaractere
+### Método removerPorCaractere
 
-## Método exibirArvore
+### Método exibirArvore
 
-## Método popularArvore
+### Método popularArvore
 
-## Método main
+### Método main
 
 Loop principal do programa com interação do usuário.
