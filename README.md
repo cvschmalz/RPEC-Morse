@@ -1,6 +1,9 @@
 # RPEC-Morse
+
 Disciplina: Resolução de Problemas de Natureza Discreta
-Professor: Andrey
+
+Professor: Andrey Cabral Meira
+
 Alunos: Cecília Lucchesi Mardegan, Christine von Schmalz, Erick Maestri de Souza
 
 ## Explicação do código
