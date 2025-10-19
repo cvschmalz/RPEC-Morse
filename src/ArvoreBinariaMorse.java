@@ -90,39 +90,100 @@ public class ArvoreBinariaMorse {
         return achado;
     }
 
+    // percorre a árvore inteira para achar o caractere a ser removido
     public void removerPorCaractere(String caractere) {
         removerPorCaractereRec(raiz, caractere);
-
+        raiz = removerNosVazios(raiz);  // remove todos os nós vazios que não tem filhos
     }
 
     private boolean removerPorCaractereRec(Node node, String alvo) {
         if (node == null) return false;
-        if (node.getCaractere() != null && node.getCaractere().equals(alvo)) {
-            node.setCaractere("");
+
+        // verificar se o alvo está em algum filho do nó (para poder remover o nó filho)
+
+        // filho esquerdo:
+        if (node.getEsquerdo() != null && alvo.equals(node.getEsquerdo().getCaractere())) {
+            Node proximo = node.getEsquerdo();
+            // verifica se o alvo não tem filhos antes de remover
+            if (proximo.getEsquerdo() == null && proximo.getDireito() == null) {
+                node.setEsquerdo(null);
+            } else {
+                proximo.setCaractere("");   // caso o nó tenha filhos, só remove o caracter
+            }
             return true;
         }
-        boolean r1 = removerPorCaractereRec(node.getEsquerdo(), alvo);
-        if (r1) return true;
-        boolean r2 = removerPorCaractereRec(node.getDireito(), alvo);
-        return r2;
+
+        // filho direito
+        if (node.getDireito() != null && alvo.equals(node.getDireito().getCaractere())) {
+            Node proximo = node.getDireito();
+            // verifica se o alvo não tem filhos antes de remover
+            if (proximo.getEsquerdo() == null && proximo.getDireito() == null) {
+                node.setDireito(null);
+            } else {
+                proximo.setCaractere("");   // caso o nó tenha filhos, só remove o caracter
+            }
+            return true;
+        }
+
+        // se não achou ainda, procura nas subárvores
+        if (removerPorCaractereRec(node.getEsquerdo(), alvo)) return true;
+        return removerPorCaractereRec(node.getDireito(), alvo);
     }
 
-    public void removerPorMorse(String codigo){
+
+
+    public void removerPorMorse(String codigo) {
         Node atual = raiz;
+        Node anterior = null; // gravar o nó anterior para poder remover o nó alvo
+        String direcao = "";
+
         for (int i = 0; i < codigo.length(); i++) {
             String digito = codigo.substring(i, i + 1);
+            anterior = atual;
+
             if (digito.equals(".")) {
                 // esquerda
-                if (atual.getEsquerdo() != null) atual = atual.getEsquerdo();
+                atual = atual.getEsquerdo();
+                direcao = "esq";
             } else if (digito.equals("-")) {
                 // direita
-                if (atual.getDireito() != null) atual = atual.getDireito();
+                atual = atual.getDireito();
+                direcao = "dir";
             } else {
                 System.out.println("Código inválido");
                 return;
             }
+
+            if (atual == null) {
+                System.out.println("Código não encontrado");
+                return;
+            }
         }
-        atual.setCaractere("");
+
+        // se o nó não tiver filhos, remove o nó usando o nó anterior
+        if (atual.getEsquerdo() == null && atual.getDireito() == null) {
+            if (direcao.equals("esq")) anterior.setEsquerdo(null);
+            else anterior.setDireito(null);
+        } else {    // se tiver filhos, só remove o caractere
+            atual.setCaractere("");
+        }
+
+        // limpa a árvore para tirar nós vazios que não tem filhos
+        removerNosVazios(raiz);
+    }
+
+    // função para retirar nós vazios que não tem filhos
+    private Node removerNosVazios(Node node) {
+        if (node == null) return null;
+        // recursivamente limpa as subárvores do nó
+        node.setEsquerdo(removerNosVazios(node.getEsquerdo()));
+        node.setDireito(removerNosVazios(node.getDireito()));
+
+        if ((node.getCaractere() == null || node.getCaractere().equals("")) &&
+                node.getEsquerdo() == null && node.getDireito() == null) {
+            return null;
+        }
+        return node;
     }
 
     public void exibirArvore() {
@@ -207,13 +268,6 @@ public class ArvoreBinariaMorse {
                     System.out.println();
                     break;
                 case "2":
-//                    while (caractere.length() != 1){
-//                        System.out.println("Digite um caractere:");
-//                        caractere = scanner.next();
-//                        if (caractere.length() != 1){
-//                            System.out.println("Caractere inválido");
-//                        }
-//                    }
                     System.out.println("Digite um caractere:");
                     caractere = scanner.next();
                     scanner.nextLine();
@@ -221,13 +275,6 @@ public class ArvoreBinariaMorse {
                     break;
 
                 case "3":
-//                    while (codigo.isEmpty()){
-//                        System.out.println("Digite um código morse:");
-//                        codigo = scanner.next();
-//                        if (codigo.isEmpty()){
-//                            System.out.println("Código inválido");
-//                        }
-//                    }
                     System.out.println("Digite um código morse:");
                     codigo = scanner.nextLine();
                     scanner.nextLine();
