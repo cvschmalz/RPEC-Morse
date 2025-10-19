@@ -50,6 +50,10 @@ Navega pela árvore seguindo o código morse especificado e remove o caractere a
 
 Busca o nó que contém o caractere informado e o remove, limpando apenas o valor armazenado.
 
+### Método `removerNosVazios`
+
+Percorre a árvore inteira, procurando nós que não tem filhos e cujo caractere é vazio, para removê-los.
+
 ### Método `exibirArvore`
 
 Imprime a árvore binária no console de forma hierárquica, mostrando o caminho percorrido até cada nó e o caractere armazenado ou ( ) caso o nó esteja vazio.
